@@ -66,6 +66,21 @@ export default class CameraComponent extends React.Component {
             ref={camera => (this.camera = camera)}
           />
         </View>
+        <View style={{
+          flexDirection: 'row',
+          display: 'flex',
+          justifyContent: 'center',
+          height: 400,
+          width: 50,
+          padding: 20,
+          top: 200,
+          left: 178,
+          borderRadius: 5,
+          borderStyle: 'solid',
+          borderColor: '#686868',
+          borderWidth: 2,
+
+        }}/>
         <Toolbar
           capturing={capturing}
           flashMode={flashMode}
@@ -74,7 +89,8 @@ export default class CameraComponent extends React.Component {
           onCaptureIn={this.handleCaptureIn}
           onCaptureOut={this.handleCaptureOut}
           onShortCapture={this.handleShortCapture}
-        />
+        >
+        </Toolbar>
       </React.Fragment>
     );
   }

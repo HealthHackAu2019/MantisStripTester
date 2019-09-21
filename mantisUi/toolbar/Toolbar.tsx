@@ -1,7 +1,7 @@
 import { Camera } from 'expo-camera';
 import React from 'react';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 
