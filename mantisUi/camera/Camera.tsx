@@ -1,13 +1,35 @@
-import React, { Component } from 'react';
-import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Camera } from 'expo-camera';
+import React from 'react';
+import { Text, View } from 'react-native';
 import * as Permissions from 'expo-permissions';
+import { Camera } from 'expo-camera';
+import styles from '../styles';
+import Toolbar from '../toolbar/Toolbar';
 
-class CameraComponent extends Component<{}> {
+export default class CameraComponent extends React.Component {
   camera = null;
 
   state = {
-    hasCameraPermission: null
+    captures: [],
+    capturing: null,
+    hasCameraPermission: null,
+    cameraType: Camera.Constants.Type.back,
+    flashMode: Camera.Constants.FlashMode.off
+  };
+
+  setFlashMode = flashMode => this.setState({ flashMode });
+  setCameraType = cameraType => this.setState({ cameraType });
+  handleCaptureIn = () => this.setState({ capturing: true });
+
+  handleCaptureOut = () => {
+    if (this.state.capturing) this.camera.stopRecording();
+  };
+
+  handleShortCapture = async () => {
+    const photoData = await this.camera.takePictureAsync();
+    this.setState({
+      capturing: false,
+      captures: [photoData, ...this.state.captures]
+    });
   };
 
   async componentDidMount() {
@@ -19,54 +41,41 @@ class CameraComponent extends Component<{}> {
     this.setState({ hasCameraPermission });
   }
 
-  render(): any {
-    const { hasCameraPermission } = this.state;
-    console.log(hasCameraPermission, 'react');
+  render() {
+    const {
+      hasCameraPermission,
+      flashMode,
+      cameraType,
+      capturing,
+      captures
+    } = this.state;
+
     if (hasCameraPermission === null) {
-      return (
-        <View>
-          <Text>Hello</Text>
-        </View>
-      );
+      return <View />;
     } else if (hasCameraPermission === false) {
       return <Text>Access to camera has been denied.</Text>;
     }
 
     return (
-      <View style={{ flex: 1 }}>
-        <Camera style={{ flex: 1 }} type={this.state.type}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'transparent',
-              flexDirection: 'row'
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                flex: 0.1,
-                alignSelf: 'flex-end',
-                alignItems: 'center'
-              }}
-              onPress={() => {
-                this.setState({
-                  type:
-                    this.state.type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back
-                });
-              }}
-            >
-              <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                {' '}
-                Flip{' '}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Camera>
-      </View>
+      <React.Fragment>
+        <View>
+          <Camera
+            type={cameraType}
+            flashMode={flashMode}
+            style={styles.preview}
+            ref={camera => (this.camera = camera)}
+          />
+        </View>
+        <Toolbar
+          capturing={capturing}
+          flashMode={flashMode}
+          setFlashMode={this.setFlashMode}
+          setCameraType={this.setCameraType}
+          onCaptureIn={this.handleCaptureIn}
+          onCaptureOut={this.handleCaptureOut}
+          onShortCapture={this.handleShortCapture}
+        />
+      </React.Fragment>
     );
   }
 }
-
-export default CameraComponent;
