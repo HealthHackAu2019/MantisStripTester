@@ -4,6 +4,9 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import styles from '../styles';
 import Toolbar from '../toolbar/Toolbar';
+import Gallery from '../capture/Capture';
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from 'expo-media-library';
 
 export default class CameraComponent extends React.Component {
   camera = null;
@@ -13,11 +16,13 @@ export default class CameraComponent extends React.Component {
     capturing: null,
     hasCameraPermission: null,
     cameraType: Camera.Constants.Type.back,
-    flashMode: Camera.Constants.FlashMode.off
+    flashMode: Camera.Constants.FlashMode.off,
+    cropData: {
+      crop: { originX: 1200, originY: 1130, width: 500, height: 1200 }
+    }
   };
 
   setFlashMode = flashMode => this.setState({ flashMode });
-  setCameraType = cameraType => this.setState({ cameraType });
   handleCaptureIn = () => this.setState({ capturing: true });
 
   handleCaptureOut = () => {
@@ -25,18 +30,36 @@ export default class CameraComponent extends React.Component {
   };
 
   handleShortCapture = async () => {
+    this.state.captures.length >= 1 ? this.setState({ captures: [] }) : null;
     const photoData = await this.camera.takePictureAsync();
-    this.setState({
-      capturing: false,
-      captures: [photoData, ...this.state.captures]
+    await ImageManipulator.manipulateAsync(
+      photoData.uri,
+      [this.state.cropData],
+      { format: ImageManipulator.SaveFormat.JPEG }
+    ).then(async image => {
+      const asset = await MediaLibrary.createAssetAsync(image.uri)
+      MediaLibrary.createAlbumAsync('MantisUi', asset)
+        .then(() => {
+          console.log('Album created!');
+        })
+        .catch(error => {
+          console.log('err', error);
+        });
+      this.setState({
+        capturing: false,
+        captures: [image, ...this.state.captures]
+      });
     });
   };
 
   async componentDidMount() {
     const camera = await Permissions.askAsync(Permissions.CAMERA);
+    const cameraRoll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     const hasCameraPermission =
-      camera.status === 'granted' && audio.status === 'granted';
+      camera.status === 'granted' &&
+      audio.status === 'granted' &&
+      cameraRoll.status === 'granted';
 
     this.setState({ hasCameraPermission });
   }
@@ -55,6 +78,11 @@ export default class CameraComponent extends React.Component {
     } else if (hasCameraPermission === false) {
       return <Text>Access to camera has been denied.</Text>;
     }
+    if (hasCameraPermission === null) {
+      return <View />;
+    } else if (hasCameraPermission === false) {
+      return <Text>Access to camera has been denied.</Text>;
+    }
 
     return (
       <React.Fragment>
@@ -66,31 +94,33 @@ export default class CameraComponent extends React.Component {
             ref={camera => (this.camera = camera)}
           />
         </View>
-        <View style={{
-          flexDirection: 'row',
-          display: 'flex',
-          justifyContent: 'center',
-          height: 400,
-          width: 50,
-          padding: 20,
-          top: 200,
-          left: 178,
-          borderRadius: 5,
-          borderStyle: 'solid',
-          borderColor: '#686868',
-          borderWidth: 2,
+        <View
+          style={{
+            flexDirection: 'row',
+            display: 'flex',
+            justifyContent: 'center',
+            height: 400,
+            width: 50,
+            padding: 20,
+            top: 200,
+            left: 178,
+            borderRadius: 5,
+            borderStyle: 'solid',
+            borderColor: '#686868',
+            borderWidth: 2
+          }}
+        />
 
-        }}/>
+        {captures.length > 0 && <Gallery captures={captures} />}
+
         <Toolbar
           capturing={capturing}
           flashMode={flashMode}
           setFlashMode={this.setFlashMode}
-          setCameraType={this.setCameraType}
           onCaptureIn={this.handleCaptureIn}
           onCaptureOut={this.handleCaptureOut}
           onShortCapture={this.handleShortCapture}
-        >
-        </Toolbar>
+        ></Toolbar>
       </React.Fragment>
     );
   }
