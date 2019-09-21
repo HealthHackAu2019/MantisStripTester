@@ -18,7 +18,7 @@ export default class CameraComponent extends React.Component {
     cameraType: Camera.Constants.Type.back,
     flashMode: Camera.Constants.FlashMode.off,
     cropData: {
-      crop: { originX: 1200, originY: 1130, width: 500, height: 1200 }
+      crop: { originX: 1350, originY: 1600, width: 250, height: 450  }
     }
   };
 
