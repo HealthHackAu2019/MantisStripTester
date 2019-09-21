@@ -896,6 +896,11 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
+"@react-native-community/image-editor@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/image-editor/-/image-editor-2.0.2.tgz#e9850cf6f64ec258d8a6e4ff93a0547c592a602f"
+  integrity sha512-KxbtZLxWwoaCdjplBsB0gpZsMUg1ajHeh0hMrvMCSCOHPVT56MqlTDETZ5x+GQZkVJcpy7XPGMUqM5qVOPRayg==
+
 "@types/fbemitter@^2.0.32":
   version "2.0.32"
   resolved "https://registry.yarnpkg.com/@types/fbemitter/-/fbemitter-2.0.32.tgz#8ed204da0f54e9c8eaec31b1eec91e25132d082c"
@@ -2000,6 +2005,11 @@ expo-font@~7.0.0:
   integrity sha512-OVlUydfexjq1u57Xlymcx5egfFF2WZ5MXkg3GGjHyiSMfp09inZ7OzAu+O/TXjxjlaq9d6vBXiwVxqQoUIlx1Q==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-image-manipulator@~7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-image-manipulator/-/expo-image-manipulator-7.0.0.tgz#2306213b30e306e87ddb02f15e35c4f1f4d36a12"
+  integrity sha512-N6DV6QQ4fwppRgntXTk2zydyuSBkpkJCbU/VWohhhP26Pp2Z6ay0OfXz08OdQN2UEStAisx+W1St7cWqwq7tjA==
 
 expo-keep-awake@~7.0.0:
   version "7.0.0"

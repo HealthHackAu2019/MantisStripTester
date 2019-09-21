@@ -46,12 +46,12 @@ export default StyleSheet.create({
     bottom: 100
   },
   galleryImageContainer: {
-    width: 75,
-    height: 75,
+    width: 50,
+    height: 400,
     marginRight: 5
   },
   galleryImage: {
-    width: 75,
-    height: 75
+    width: 50,
+    height: 400
   }
 });
