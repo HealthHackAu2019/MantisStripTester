@@ -104,3 +104,6 @@ venv.bak/
 .mypy_cache/
 
 ./mantiUi/node_modules
+ClassificationTests/filenames_2.csv
+ClassificationTests/filenames.csv
+ClassificationTests/Images.zip
