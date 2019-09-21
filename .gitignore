@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+ClassificationTests/filenames_2.csv
+ClassificationTests/filenames.csv
+ClassificationTests/Images.zip
