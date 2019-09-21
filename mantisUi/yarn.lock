@@ -2028,6 +2028,11 @@ expo-location@~7.0.0:
   dependencies:
     invariant "^2.2.4"
 
+expo-media-library@~7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-media-library/-/expo-media-library-7.0.0.tgz#67b1fe55ed530ff44db7433446d2f47ab8681c55"
+  integrity sha512-qGqgvG5WS0OCbORMixUnkbPM+QgGsEfmuYFs/Xh5cGtqWDib+laVfe0qlee4BJ+h0F7n2rLFUnVxCFib0e5qQA==
+
 expo-permissions@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-7.0.0.tgz#f4135c3cf8e49c673a9a714459a1eb2b40fe2092"

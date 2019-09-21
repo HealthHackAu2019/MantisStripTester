@@ -6,6 +6,7 @@ import styles from '../styles';
 import Toolbar from '../toolbar/Toolbar';
 import Gallery from '../capture/Capture';
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from 'expo-media-library';
 
 export default class CameraComponent extends React.Component {
   camera = null;
@@ -17,8 +18,7 @@ export default class CameraComponent extends React.Component {
     cameraType: Camera.Constants.Type.back,
     flashMode: Camera.Constants.FlashMode.off,
     cropData: {
-      crop: { originX: 1200
-        , originY: 930, width: 500, height: 1600 }
+      crop: { originX: 1200, originY: 1130, width: 500, height: 1200 }
     }
   };
 
@@ -36,7 +36,15 @@ export default class CameraComponent extends React.Component {
       photoData.uri,
       [this.state.cropData],
       { format: ImageManipulator.SaveFormat.JPEG }
-    ).then(image => {
+    ).then(async image => {
+      const asset = await MediaLibrary.createAssetAsync(image.uri)
+      MediaLibrary.createAlbumAsync('MantisUi', asset)
+        .then(() => {
+          console.log('Album created!');
+        })
+        .catch(error => {
+          console.log('err', error);
+        });
       this.setState({
         capturing: false,
         captures: [image, ...this.state.captures]
@@ -46,9 +54,12 @@ export default class CameraComponent extends React.Component {
 
   async componentDidMount() {
     const camera = await Permissions.askAsync(Permissions.CAMERA);
+    const cameraRoll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     const hasCameraPermission =
-      camera.status === 'granted' && audio.status === 'granted';
+      camera.status === 'granted' &&
+      audio.status === 'granted' &&
+      cameraRoll.status === 'granted';
 
     this.setState({ hasCameraPermission });
   }
@@ -62,6 +73,11 @@ export default class CameraComponent extends React.Component {
       captures
     } = this.state;
 
+    if (hasCameraPermission === null) {
+      return <View />;
+    } else if (hasCameraPermission === false) {
+      return <Text>Access to camera has been denied.</Text>;
+    }
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
