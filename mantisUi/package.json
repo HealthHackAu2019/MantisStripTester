@@ -8,11 +8,15 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.6.1",
     "@react-native-community/image-editor": "^2.0.2",
+    "@tensorflow/tfjs": "^1.2.9",
+    "@tensorflow/tfjs-react-native": "^0.1.0-alpha.2",
     "@types/node": "^12.7.5",
     "expo": "^35.0.0",
     "expo-asset": "~7.0.0",
     "expo-camera": "^7.0.0",
+    "expo-gl": "^7.0.0",
     "expo-image-manipulator": "~7.0.0",
     "expo-media-library": "~7.0.0",
     "expo-permissions": "~7.0.0",

@@ -7,8 +7,8 @@ import Toolbar from '../toolbar/Toolbar';
 import Gallery from '../capture/Capture';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as MediaLibrary from 'expo-media-library';
-import { tfImageRecognition, results } from '../tensorflow';
-import { TfImageRecognition } from 'react-native-tensorflow';
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-react-native';
 
 export default class CameraComponent extends React.Component {
   camera = null;
@@ -24,7 +24,8 @@ export default class CameraComponent extends React.Component {
     },
     resizeData: {
       resize: { width: 25, height: 50 }
-    }
+    },
+    isTfReady: false,
   };
 
   setFlashMode = flashMode => this.setState({ flashMode });
@@ -54,20 +55,12 @@ export default class CameraComponent extends React.Component {
   };
 
   async componentDidMount() {
-    const tfModel = new TfImageRecognition({
-      model: require('../assets/squeezenet.pb'),
-      imageMean: 0.0, // Optional, defaults to 117
-      imageStd: 255.0 // Optional, defaults to 1
-    });
-    results(tfModel).then(results => {
-      results.forEach(result => {
-        console.log(
-          result.id, // Id of the result
-          result.name, // Name of the result
-          result.confidence // Confidence value between 0 - 1
-        );
-      });
-    });
+     // Wait for tf to be ready.
+     await tf.ready();
+     // Signal to the app that tensorflow.js can now be used.
+     this.setState({
+       isTfReady: true,
+     });
 
     const camera = await Permissions.askAsync(Permissions.CAMERA);
     const cameraRoll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -78,7 +71,10 @@ export default class CameraComponent extends React.Component {
       cameraRoll.status === 'granted';
 
     this.setState({ hasCameraPermission });
+    console.log(this.state.isTfReady)
   }
+
+
 
   render() {
     const {

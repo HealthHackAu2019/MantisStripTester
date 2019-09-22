@@ -7,8 +7,8 @@ interface TfResults {
 }
 
 export const tfImageRecognition = new TfImageRecognition({
-  model: require('MantisStripTester/ClassificationTests/checkpoint/squeezenet.pb'),
-  labels: require('MantisStripTester/ClassificationTests/Images/True_positive/TP_1_1.png'),
+  model: require('./assets/squeezenet.pb'),
+  labels: require('./assets//TP_1_1.png'),
   imageMean: 0.0, // Optional, defaults to 117
   imageStd: 255.0 // Optional, defaults to 1
 });

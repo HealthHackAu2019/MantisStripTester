@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "react-native-popover-view": "^2.0.5"
+    "@tensorflow/tfjs": "^1.2.9",
+    "@tensorflow/tfjs-react-native": "^0.1.0-alpha.2",
+    "expo-gl": "^7.0.0",
+    "react-native-popover-view": "^2.0.5",
+    "react-native-unimodules": "^0.7.0-rc.1"
   }
 }
