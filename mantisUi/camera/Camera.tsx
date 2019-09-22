@@ -10,8 +10,8 @@ import * as MediaLibrary from "expo-media-library";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-react-native";
 import { bundleResourceIO } from "@tensorflow/tfjs-react-native";
-const modelJSON = require('../../ClassificationTests/three_channel_model/model.json');
-const modelWeights = require('../../ClassificationTests/three_channel_model/group1-shard1of1.bin');
+const modelJSON = require("./../assets/model.json");
+const modelWeights = require("./../assets/group1-shard1of1.bin");
 
 export default class CameraComponent extends React.Component {
   camera = null;
