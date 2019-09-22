@@ -1,15 +1,16 @@
-import React from 'react';
-import { Text, View } from 'react-native';
-import * as Permissions from 'expo-permissions';
-import { Camera } from 'expo-camera';
-import styles from '../styles';
-import Toolbar from '../toolbar/Toolbar';
-import Gallery from '../capture/Capture';
-import * as ImageManipulator from 'expo-image-manipulator';
-import * as MediaLibrary from 'expo-media-library';
-import * as tf from '@tensorflow/tfjs';
-import '@tensorflow/tfjs-react-native';
-
+import React from "react";
+import { Text, View } from "react-native";
+import * as Permissions from "expo-permissions";
+import { Camera } from "expo-camera";
+import styles from "../styles";
+import Toolbar from "../toolbar/Toolbar";
+import Gallery from "../capture/Capture";
+import * as ImageManipulator from "expo-image-manipulator";
+import * as MediaLibrary from "expo-media-library";
+import * as tf from "@tensorflow/tfjs";
+import "@tensorflow/tfjs-react-native";
+const modelJSON = require("ClassificationTests/three_channel_model/model.json");
+const modelWeights = require("ClassificationTests/three_channel_model/group1-shard1of1.bin");
 export default class CameraComponent extends React.Component {
   camera = null;
 
@@ -25,7 +26,7 @@ export default class CameraComponent extends React.Component {
     resizeData: {
       resize: { width: 25, height: 50 }
     },
-    isTfReady: false,
+    isTfReady: false
   };
 
   setFlashMode = flashMode => this.setState({ flashMode });
@@ -44,7 +45,7 @@ export default class CameraComponent extends React.Component {
       { format: ImageManipulator.SaveFormat.JPEG }
     ).then(async image => {
       const asset = await MediaLibrary.createAssetAsync(image.uri);
-      MediaLibrary.createAlbumAsync('MantisUi', asset)
+      MediaLibrary.createAlbumAsync("MantisUi", asset)
         .then(stuff => {})
         .catch(error => {});
       this.setState({
@@ -54,27 +55,32 @@ export default class CameraComponent extends React.Component {
     });
   };
 
+  async bundleResourceIOExample() {
+    const model = await tf.loadLayersModel(
+      bundleResourceIO(modelJson, modelWeights)
+    );
+    const res = model.predict(tf.randomNormal([1, 28, 28, 1])) as tf.Tensor;
+  }
+
   async componentDidMount() {
-     // Wait for tf to be ready.
-     await tf.ready();
-     // Signal to the app that tensorflow.js can now be used.
-     this.setState({
-       isTfReady: true,
-     });
+    // Wait for tf to be ready.
+    await tf.ready();
+    // Signal to the app that tensorflow.js can now be used.
+    this.setState({
+      isTfReady: true
+    });
 
     const camera = await Permissions.askAsync(Permissions.CAMERA);
     const cameraRoll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     const hasCameraPermission =
-      camera.status === 'granted' &&
-      audio.status === 'granted' &&
-      cameraRoll.status === 'granted';
+      camera.status === "granted" &&
+      audio.status === "granted" &&
+      cameraRoll.status === "granted";
 
     this.setState({ hasCameraPermission });
-    console.log(this.state.isTfReady)
+    console.log(this.state.isTfReady);
   }
-
-
 
   render() {
     const {
@@ -108,17 +114,17 @@ export default class CameraComponent extends React.Component {
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            display: 'flex',
-            justifyContent: 'center',
+            flexDirection: "row",
+            display: "flex",
+            justifyContent: "center",
             height: 400,
             width: 50,
             padding: 20,
             top: 200,
             left: 178,
             borderRadius: 5,
-            borderStyle: 'solid',
-            borderColor: '#686868',
+            borderStyle: "solid",
+            borderColor: "#686868",
             borderWidth: 2
           }}
         />
