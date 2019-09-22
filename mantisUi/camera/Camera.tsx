@@ -9,8 +9,11 @@ import * as ImageManipulator from "expo-image-manipulator";
 import * as MediaLibrary from "expo-media-library";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-react-native";
-const modelJSON = require("ClassificationTests/three_channel_model/model.json");
-const modelWeights = require("ClassificationTests/three_channel_model/group1-shard1of1.bin");
+import { bundleResourceIO } from "@tensorflow/tfjs-react-native";
+const modelJSON = require("../../ClassificationTests/three_channel_model/model.json");
+const modelWeights = require("../../ClassificationTests/three_channel_model/group1-shard1of1.bin");
+import Canvas from "react-native-canvas";
+
 export default class CameraComponent extends React.Component {
   camera = null;
 
@@ -56,8 +59,10 @@ export default class CameraComponent extends React.Component {
   };
 
   async bundleResourceIOExample() {
+    const imagURI = this.state.captures[0].uri;
+
     const model = await tf.loadLayersModel(
-      bundleResourceIO(modelJson, modelWeights)
+      bundleResourceIO(modelJSON, modelWeights)
     );
     const res = model.predict(tf.randomNormal([1, 28, 28, 1])) as tf.Tensor;
   }

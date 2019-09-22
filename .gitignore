@@ -107,3 +107,4 @@ venv.bak/
 ClassificationTests/filenames_2.csv
 ClassificationTests/filenames.csv
 ClassificationTests/Images.zip
+node_modules

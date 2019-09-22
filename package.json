@@ -2,7 +2,12 @@
   "dependencies": {
     "@tensorflow/tfjs": "^1.2.9",
     "@tensorflow/tfjs-react-native": "^0.1.0-alpha.2",
+    "expo-camera": "^7.0.0",
     "expo-gl": "^7.0.0",
+    "expo-image-manipulator": "^7.0.0",
+    "expo-media-library": "^7.0.0",
+    "react": "^16.9.0",
+    "react-native": "^0.60.5",
     "react-native-popover-view": "^2.0.5",
     "react-native-unimodules": "^0.7.0-rc.1"
   }
