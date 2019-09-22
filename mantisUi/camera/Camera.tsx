@@ -7,6 +7,8 @@ import Toolbar from '../toolbar/Toolbar';
 import Gallery from '../capture/Capture';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as MediaLibrary from 'expo-media-library';
+import { tfImageRecognition, results } from '../tensorflow';
+import { TfImageRecognition } from 'react-native-tensorflow';
 
 export default class CameraComponent extends React.Component {
   camera = null;
@@ -18,7 +20,10 @@ export default class CameraComponent extends React.Component {
     cameraType: Camera.Constants.Type.back,
     flashMode: Camera.Constants.FlashMode.off,
     cropData: {
-      crop: { originX: 1350, originY: 1600, width: 250, height: 450  }
+      crop: { originX: 1350, originY: 1600, width: 250, height: 450 }
+    },
+    resizeData: {
+      resize: { width: 25, height: 50 }
     }
   };
 
@@ -34,17 +39,13 @@ export default class CameraComponent extends React.Component {
     const photoData = await this.camera.takePictureAsync();
     await ImageManipulator.manipulateAsync(
       photoData.uri,
-      [this.state.cropData],
+      [this.state.cropData, this.state.resizeData],
       { format: ImageManipulator.SaveFormat.JPEG }
     ).then(async image => {
-      const asset = await MediaLibrary.createAssetAsync(image.uri)
+      const asset = await MediaLibrary.createAssetAsync(image.uri);
       MediaLibrary.createAlbumAsync('MantisUi', asset)
-        .then(() => {
-          console.log('Album created!');
-        })
-        .catch(error => {
-          console.log('err', error);
-        });
+        .then(stuff => {})
+        .catch(error => {});
       this.setState({
         capturing: false,
         captures: [image, ...this.state.captures]
@@ -53,6 +54,21 @@ export default class CameraComponent extends React.Component {
   };
 
   async componentDidMount() {
+    const tfModel = new TfImageRecognition({
+      model: require('../assets/squeezenet.pb'),
+      imageMean: 0.0, // Optional, defaults to 117
+      imageStd: 255.0 // Optional, defaults to 1
+    });
+    results(tfModel).then(results => {
+      results.forEach(result => {
+        console.log(
+          result.id, // Id of the result
+          result.name, // Name of the result
+          result.confidence // Confidence value between 0 - 1
+        );
+      });
+    });
+
     const camera = await Permissions.askAsync(Permissions.CAMERA);
     const cameraRoll = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);

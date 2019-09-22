@@ -923,6 +923,11 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.138.tgz#34f52640d7358230308344e579c15b378d91989e"
   integrity sha512-A4uJgHz4hakwNBdHNPdxOTkYmXNgmUAKLbXZ7PKGslgeV0Mb8P3BlbYfPovExek1qnod4pDfRbxuzcVs3dlFLg==
 
+"@types/node@^12.7.5":
+  version "12.7.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
+  integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
+
 "@types/prop-types@*":
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.2.tgz#0e58ae66773d7fd7c372a493aff740878ec9ceaa"
@@ -4225,6 +4230,13 @@ react-native-easy-grid@^0.2.2:
   dependencies:
     lodash "^4.17.15"
 
+react-native-tensorflow@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/react-native-tensorflow/-/react-native-tensorflow-0.1.8.tgz#4bfd34bde7692010f98fc9720836b17bd1c02fd6"
+  integrity sha1-S/00vedpIBD5j8lyCDaxe9HAL9Y=
+  dependencies:
+    uuid "^3.1.0"
+
 react-native-view-shot@2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-2.6.0.tgz#3b23675826f67658366352c4b97b59a6aded2f43"
@@ -4936,6 +4948,11 @@ temp@0.8.3:
     os-tmpdir "^1.0.0"
     rimraf "~2.2.6"
 
+tflite-react-native@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/tflite-react-native/-/tflite-react-native-0.0.5.tgz#bb2a78579e84371bddc455a79bd39d28c98a218b"
+  integrity sha512-aBajq5yQQ8UiB92tIk+v9BIKZTFGwCTHegfefISgnXwqPiPAAvKhdX6Vb80kJFPTUjXB53w/NZQT9qCyVBYMyA==
+
 throat@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-4.1.0.tgz#89037cbc92c56ab18926e6ba4cbb200e15672a6a"
@@ -5183,7 +5200,7 @@ uuid-js@^0.7.5:
   resolved "https://registry.yarnpkg.com/uuid-js/-/uuid-js-0.7.5.tgz#6c886d02a53d2d40dcf25d91a170b4a7b25b94d0"
   integrity sha1-bIhtAqU9LUDc8l2RoXC0p7JblNA=
 
-uuid@^3.3.2:
+uuid@^3.1.0, uuid@^3.3.2:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
